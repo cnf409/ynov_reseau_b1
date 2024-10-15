@@ -175,7 +175,6 @@ nano /etc/dhcp/dhcpd.conf
 #   see /usr/share/doc/dhcp-server/dhcpd.conf.example
 #   see dhcpd.conf(5) man page
 #
-option domain-name     "routeur1"; 
 
 option domain-name-servers     1.1.1.1; 
 
@@ -204,7 +203,7 @@ firewall-cmd --runtime-to-permanent
 sudo hostnamectl set-hostname client3
 
 sudo nano /etc/netplan/01-netcfg.yaml
-*passage de dhcp4 en yes*
+*passage de dhcp4 en yes & suppression du reste*
 
 ip a 
 2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
@@ -256,3 +255,11 @@ ip a
 Adresse MAC -> `08:00:27:08:be:8b`
 
 ###### C'est super j'adore le réseau
+
+# Bonus : DHCP spoofing
+
+## II. Alataaaak
+
+☀️ Installer et configurer un serveur DHCP sur la machine attaquante
+
+
