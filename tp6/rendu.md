@@ -175,3 +175,94 @@ vincent@vinent-vbox:~$ curl web.tp6.b1
 <!doctype html>
 <html>
 ```
+
+# TP6 - Bonus Scapy
+
+## 1. Play it legit
+
+🌞 ping.py
+
+```
+vincent@client:~$ sudo python3 ping.py 
+Begin emission
+.......
+Finished sending 1 packets
+.*
+Received 9 packets, got 1 answers, remaining 0 packets
+Pong reçu : QueryAnswer(query=<Ether  dst=08:00:27:0c:bd:f8 src=08:00:27:37:f1:ff type=IPv4 |<IP  frag=0 proto=icmp src=10.6.1.37 dst=10.6.1.254 |<ICMP  type=echo-request |>>>, answer=<Ether  dst=08:00:27:37:f1:ff src=08:00:27:0c:bd:f8 type=IPv4 |<IP  version=4 ihl=5 tos=0x0 len=28 id=31197 flags= frag=0 ttl=64 proto=icmp chksum=0xe9d5 src=10.6.1.254 dst=10.6.1.37 |<ICMP  type=echo-reply code=0 chksum=0x0 id=0x0 seq=0x0 unused=b'' |<Padding  load=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' |>>>>)
+```
+
+🌞 dns_request.py
+
+```
+###[ IP ]###
+  version   = 4
+  ihl       = 5
+  tos       = 0xc0
+  len       = 89
+  id        = 64499
+  flags     = 
+  frag      = 0
+  ttl       = 64
+  proto     = icmp
+  chksum    = 0x66c2
+  src       = 10.6.1.254
+  dst       = 10.6.1.37
+```
+
+🌞 dhcp request.py
+
+(on lance le sniff puis le dhcp.py)
+```
+vincent@client:~$ sudo python3 sniff.py 
+ACK reçu
+```
+
+-> `dhcp_scapy`
+
+## 2. Maybe not
+
+```
+lease 10.6.1.37 {
+  starts 1 2024/10/21 12:28:38;
+  ends 2 2024/10/22 00:28:38;
+  tstp 2 2024/10/22 00:28:38;
+  cltt 1 2024/10/21 14:43:13;
+  binding state active;
+  next binding state free;
+  rewind binding state free;
+  hardware ethernet 08:00:27:37:f1:ff;
+  uid "\001\010\000'7\361\377";
+  client-hostname "client";
+}
+lease 10.6.1.40 {
+  starts 1 2024/10/21 13:55:46;
+  ends 2 2024/10/22 01:55:46;
+  cltt 1 2024/10/21 14:19:36;
+  binding state active;
+  next binding state free;
+  rewind binding state free;
+  hardware ethernet 08:00:27:37:f1:ff;
+}
+[...]
+lease 10.6.1.135 {
+  starts 1 2024/10/21 14:53:05;
+  ends 2 2024/10/22 02:53:05;
+  cltt 1 2024/10/21 14:53:05;
+  binding state active;
+  next binding state free;
+  rewind binding state free;
+  hardware ethernet 34:35:39:30:34:62;
+}
+lease 10.6.1.136 {
+  starts 1 2024/10/21 14:53:06;
+  ends 2 2024/10/22 02:53:06;
+  cltt 1 2024/10/21 14:53:06;
+  binding state active;
+  next binding state free;
+  rewind binding state free;
+  hardware ethernet 31:31:64:32:32:61;
+}
+```
+
+(capture à l'appui -> `starve.pcap`)
